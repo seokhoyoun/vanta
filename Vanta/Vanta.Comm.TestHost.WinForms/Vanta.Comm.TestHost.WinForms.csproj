@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFrameworks>net472;net8.0-windows;net10.0-windows</TargetFrameworks>
+    <UseWindowsForms>true</UseWindowsForms>
+    <EnableDefaultItems>true</EnableDefaultItems>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Vanta.Comm.Contracts\Vanta.Comm.Contracts.csproj" />
+    <ProjectReference Include="..\Vanta.Comm.Device.Melsec\Vanta.Comm.Device.Melsec.csproj" />
+    <ProjectReference Include="..\Vanta.Comm.Simulation\Vanta.Comm.Simulation.csproj" />
+  </ItemGroup>
+</Project>

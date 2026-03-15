@@ -1,0 +1,9 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>Vanta.Comm.Contracts</RootNamespace>
+    <AssemblyName>Vanta.Comm.Contracts</AssemblyName>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Vanta.Core\Vanta.Core.csproj" />
+  </ItemGroup>
+</Project>

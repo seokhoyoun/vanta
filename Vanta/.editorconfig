@@ -1,0 +1,13 @@
+root = true
+
+[*.{cs,csproj,slnx,props,targets,md,json,xml,txt,yml,yaml}]
+charset = utf-8
+end_of_line = crlf
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+[*.bat]
+end_of_line = crlf
+
+[*.sh]
+end_of_line = lf
