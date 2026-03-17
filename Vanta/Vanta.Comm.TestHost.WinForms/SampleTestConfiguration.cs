@@ -13,8 +13,8 @@ namespace Vanta.Comm.TestHost.WinForms
         {
             DeviceDefinition device = new DeviceDefinition();
             device.DeviceId = 1;
-            device.DeviceName = "Simulated MELSEC";
-            device.DriverModule = "MELSEC";
+            device.DeviceName = "Simulated Mitsubishi MC Protocol";
+            device.DriverModule = "MC_PROTOCOL";
             device.CommunicationType = CommunicationType.Melsec;
             device.ThreadFlags = ThreadEnableFlags.Double;
             device.NetworkNumber = 1;

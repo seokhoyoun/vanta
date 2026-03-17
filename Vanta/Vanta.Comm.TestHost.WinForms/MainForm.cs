@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Vanta.Comm.Abstractions.Devices;
 using Vanta.Comm.Contracts.Models;
-using Vanta.Comm.Device.Melsec;
+using Vanta.Comm.Device.Mitsubishi.PLC.McProtocol;
 using Vanta.Comm.Simulation.Profiles;
 
 namespace Vanta.Comm.TestHost.WinForms
@@ -510,7 +510,7 @@ namespace Vanta.Comm.TestHost.WinForms
             DeviceSimulationProfile profile = SampleTestConfiguration.CreateProfile();
             DeviceDefinition device = SampleTestConfiguration.CreateDevice();
             BlockDefinition block = SampleTestConfiguration.CreateBlock();
-            IDeviceDriver driver = MelsecSimulationFactory.CreateDriver(profile);
+            IDeviceDriver driver = McProtocolSimulationFactory.CreateDriver(profile);
 
             await driver.InitializeAsync(device).ConfigureAwait(true);
             await driver.StartAsync().ConfigureAwait(true);

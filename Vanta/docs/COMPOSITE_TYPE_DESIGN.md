@@ -153,7 +153,7 @@ Implemented now:
 
 Not implemented yet:
 
-- runtime composite encode/decode in `Vanta.Comm.Device.Melsec`
+- runtime composite encode/decode in `Vanta.Comm.Device.Mitsubishi.PLC.McProtocol`
 - DB table or stored procedure mapping for composite definitions
 - validation that tag `WordLength` matches referenced composite `WordLength`
 - JSON or object materialization format for composite values

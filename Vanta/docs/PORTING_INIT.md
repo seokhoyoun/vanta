@@ -39,7 +39,10 @@
 | `Vanta.Comm.Application` | 유스케이스, 오케스트레이션, 명령/조회 흐름 |
 | `Vanta.Comm.Infrastructure.Adapter` | 레거시 `DLL_FRAME_ADAPTER` 대응 계층 |
 | `Vanta.Comm.Infrastructure.Event` | 레거시 `DLL_FRAME_EVENT` 대응 계층 |
-| `Vanta.Comm.Device.Melsec` | 레거시 `IF_MELSEC_RTYPE_G` 대응 계층 |
+| `Vanta.Comm.Device.Mitsubishi.PLC.McProtocol` | Mitsubishi PLC MC Protocol 구현 |
+| `Vanta.Comm.Device.Mitsubishi.PLC.MxComponent` | Mitsubishi PLC MX Component 드라이버 골격 |
+| `Vanta.Comm.Device.Mitsubishi.PLC.CCLink` | Mitsubishi PLC CC-Link 드라이버 골격 |
+| `Vanta.Comm.Device.Mitsubishi.PLC.CCLinkIE` | Mitsubishi PLC CC-Link IE 드라이버 골격 |
 | `Vanta.Comm.Process.Recipe` | 레거시 `SEQ_RECIPE_DOWNLOAD` 대응 계층 |
 
 UI 프로젝트는 아직 만들지 않는다.
@@ -60,7 +63,10 @@ Vanta.Core
       -> Vanta.Comm.Application
       -> Vanta.Comm.Infrastructure.Adapter
       -> Vanta.Comm.Infrastructure.Event
-      -> Vanta.Comm.Device.Melsec
+      -> Vanta.Comm.Device.Mitsubishi.PLC.McProtocol
+      -> Vanta.Comm.Device.Mitsubishi.PLC.MxComponent
+      -> Vanta.Comm.Device.Mitsubishi.PLC.CCLink
+      -> Vanta.Comm.Device.Mitsubishi.PLC.CCLinkIE
       -> Vanta.Comm.Process.Recipe
 ```
 
@@ -118,7 +124,10 @@ Vanta.Core
 
 대상 프로젝트:
 
-- `Vanta.Comm.Device.Melsec`
+- `Vanta.Comm.Device.Mitsubishi.PLC.McProtocol`
+- `Vanta.Comm.Device.Mitsubishi.PLC.MxComponent`
+- `Vanta.Comm.Device.Mitsubishi.PLC.CCLink`
+- `Vanta.Comm.Device.Mitsubishi.PLC.CCLinkIE`
 
 ### `SEQ_RECIPE_DOWNLOAD`
 

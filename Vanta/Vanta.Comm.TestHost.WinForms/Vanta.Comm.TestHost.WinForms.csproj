@@ -8,7 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Vanta.Comm.Contracts\Vanta.Comm.Contracts.csproj" />
-    <ProjectReference Include="..\Vanta.Comm.Device.Melsec\Vanta.Comm.Device.Melsec.csproj" />
+    <ProjectReference Include="..\Vanta.Comm.Device.Mitsubishi.PLC.McProtocol\Vanta.Comm.Device.Mitsubishi.PLC.McProtocol.csproj" />
     <ProjectReference Include="..\Vanta.Comm.Simulation\Vanta.Comm.Simulation.csproj" />
   </ItemGroup>
 </Project>
