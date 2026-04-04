@@ -2,17 +2,4 @@
   <Folder Name="/솔루션 항목/">
     <File Path="Directory.Build.props" />
   </Folder>
-  <Project Path="Vanta.Comm.Abstractions/Vanta.Comm.Abstractions.csproj" Id="6d54c03b-2382-46f8-9195-f036d0fbb40d" />
-  <Project Path="Vanta.Comm.Application/Vanta.Comm.Application.csproj" Id="d4af0b5b-c790-48bb-b1be-66b50f09b40f" />
-  <Project Path="Vanta.Comm.Contracts/Vanta.Comm.Contracts.csproj" Id="6b6fbc47-7140-4cc0-9f79-c8cafdbfc56d" />
-  <Project Path="Vanta.Comm.Device.Mitsubishi.PLC.McProtocol/Vanta.Comm.Device.Mitsubishi.PLC.McProtocol.csproj" Id="bb0f645c-53de-4678-81e7-a4642b1d08ed" />
-  <Project Path="Vanta.Comm.Device.Mitsubishi.PLC.MxComponent/Vanta.Comm.Device.Mitsubishi.PLC.MxComponent.csproj" Id="18d0d158-5d4c-44cf-b525-eb9130ea5076" />
-  <Project Path="Vanta.Comm.Device.Mitsubishi.PLC.CCLink/Vanta.Comm.Device.Mitsubishi.PLC.CCLink.csproj" Id="881c91b9-6b17-49df-8620-3fd1668905c9" />
-  <Project Path="Vanta.Comm.Device.Mitsubishi.PLC.CCLinkIE/Vanta.Comm.Device.Mitsubishi.PLC.CCLinkIE.csproj" Id="f22c8f1f-65e1-4f3e-80fb-551b51b48cb7" />
-  <Project Path="Vanta.Comm.Infrastructure.Adapter/Vanta.Comm.Infrastructure.Adapter.csproj" Id="0dd6682f-90b6-4afc-bbc0-8df4c0f686fb" />
-  <Project Path="Vanta.Comm.Infrastructure.Event/Vanta.Comm.Infrastructure.Event.csproj" Id="3f013664-c2f6-4f17-9c32-327788234673" />
-  <Project Path="Vanta.Comm.Process.Recipe/Vanta.Comm.Process.Recipe.csproj" Id="ff8ab8e4-0786-46e8-8330-da48621f201c" />
-  <Project Path="Vanta.Comm.Simulation/Vanta.Comm.Simulation.csproj" Id="5e3cf1fe-736b-4a82-8d47-3117f4e8a8b6" />
-  <Project Path="Vanta.Comm.TestHost.WinForms/Vanta.Comm.TestHost.WinForms.csproj" Id="ca27800d-0761-4cb7-a5ac-94216c2d21cd" />
-  <Project Path="Vanta.Core/Vanta.Core.csproj" Id="94eac4b0-e68c-47dd-984e-ce2f5454a724" />
 </Solution>

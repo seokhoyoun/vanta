@@ -1,6 +1,0 @@
-<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <RootNamespace>Vanta.Core</RootNamespace>
-    <AssemblyName>Vanta.Core</AssemblyName>
-  </PropertyGroup>
-</Project>

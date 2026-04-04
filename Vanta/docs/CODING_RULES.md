@@ -59,6 +59,7 @@
 4. 예외 처리는 가능한 한 경계 계층에서 수행합니다.
 5. 내부 도메인 함수는 가능한 한 유효한 입력만 받는다고 가정하는 방향으로 설계합니다.
 6. 변수 가리기(shadowing)는 허용하지 않습니다.
+7. 내부에서 도는 함수 간 인자값의 null체크, 유효체크는 허용하지않습니다. assert를 사용하세요.
 
 ## 포맷팅 규칙
 
@@ -82,7 +83,6 @@
 
 ## 허용 예외
 
-- 단순한 guard 성격의 null 처리
 - 테스트 코드에서 가독성이 더 명확한 경우
 - 반복문보다 더 명확하다고 합의된 매우 단순한 projection
 
@@ -97,15 +97,6 @@
 
 이 항목들은 추후 규칙 적용 단계에서 정리 여부를 별도로 결정합니다.
 
-## 적용 범위
-
-- `Vanta.Core`
-- `Vanta.Comm.Contracts`
-- `Vanta.Comm.Abstractions`
-- `Vanta.Comm.Application`
-- `Vanta.Comm.Infrastructure.*`
-- `Vanta.Comm.Device.*`
-- `Vanta.Comm.Process.*`
 
 ## 해석 원칙
 
