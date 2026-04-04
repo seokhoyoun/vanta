@@ -10,7 +10,7 @@ Use consistent `#region` ordering in non-trivial classes so members are easy to 
 2. `fields`
 3. `constructors`
 4. `public methods`
-5. `private helpers`
+5. `private methods`
 6. `events`
 
 ## Region Names
@@ -21,7 +21,7 @@ Use fixed region names where possible:
 - `Fields`
 - `Constructors`
 - `Public Methods`
-- `Private Helpers`
+- `Private Methods`
 - `Events`
 
 ## Notes
