@@ -1,0 +1,384 @@
+@page
+@using Vanta.Models
+@using Vanta.ViewModels
+@model IndexModel
+@{
+    ViewData["Title"] = "프로젝트 목록";
+}
+
+@functions {
+    private sealed class ModuleGroupItem
+    {
+        public string TypeName { get; set; } = string.Empty;
+
+        public List<ModuleItemViewModel> Modules { get; set; } = new List<ModuleItemViewModel>();
+    }
+
+    private string GetStatusBadgeClass(string statusName)
+    {
+        return statusName switch
+        {
+            "Active" => "badge badge-success badge-outline font-semibold",
+            "Validation" => "badge badge-warning badge-outline font-semibold",
+            "Completed" => "badge badge-info badge-outline font-semibold",
+            "Planning" => "badge badge-neutral badge-outline font-semibold",
+            "Archived" => "badge badge-ghost badge-outline font-semibold",
+            _ => "badge badge-ghost badge-outline font-semibold",
+        };
+    }
+
+    private string GetStatusDisplayName(string statusName)
+    {
+        return statusName switch
+        {
+            "Active" => "진행 중",
+            "Validation" => "검증",
+            "Completed" => "완료",
+            "Planning" => "계획",
+            "Archived" => "보관",
+            _ => statusName,
+        };
+    }
+
+    private string GetProjectRowClass(string projectCode)
+    {
+        string cssClass = "project-row cursor-pointer transition-colors hover:bg-base-200/70";
+
+        if (Model.HasSelectedProject
+            && string.Equals(Model.SelectedProject.Code, projectCode, StringComparison.OrdinalIgnoreCase))
+        {
+            cssClass += " project-row-selected";
+        }
+
+        return cssClass;
+    }
+
+    private string GetProjectRowUrl(string projectCode)
+    {
+        if (Model.HasSelectedProject
+            && string.Equals(Model.SelectedProject.Code, projectCode, StringComparison.OrdinalIgnoreCase))
+        {
+            return Url.Page("/Index") ?? "/";
+        }
+
+        return Url.Page("/Index", new { code = projectCode }) ?? "/";
+    }
+
+    private string GetEquipmentStageDisplayName(string stageName)
+    {
+        return stageName switch
+        {
+            "Closed" => "종료",
+            "Commissioning" => "시운전",
+            "Integration" => "통합",
+            "Mass Production" => "양산",
+            "Pilot" => "파일럿",
+            "Planning" => "계획",
+            "Production" => "운영",
+            "Ramp Up" => "양산 준비",
+            "Setup" => "셋업",
+            "Validation" => "검증",
+            _ => string.IsNullOrWhiteSpace(stageName) ? "-" : stageName,
+        };
+    }
+
+    private List<ModuleGroupItem> GetModuleGroups(EquipmentSectionViewModel equipment)
+    {
+        List<ModuleGroupItem> groups = new List<ModuleGroupItem>();
+
+        foreach (ModuleItemViewModel module in equipment.Modules)
+        {
+            ModuleGroupItem? matchedGroup = null;
+
+            foreach (ModuleGroupItem group in groups)
+            {
+                if (string.Equals(group.TypeName, module.TypeName, StringComparison.Ordinal))
+                {
+                    matchedGroup = group;
+                    break;
+                }
+            }
+
+            if (matchedGroup == null)
+            {
+                matchedGroup = new ModuleGroupItem();
+                matchedGroup.TypeName = module.TypeName;
+                groups.Add(matchedGroup);
+            }
+
+            matchedGroup.Modules.Add(module);
+        }
+
+        return groups;
+    }
+
+    private List<string> GetModuleDetailLines(ModuleItemViewModel module)
+    {
+        List<string> lines = new List<string>();
+        if (module.ModuleType == EProjectEquipmentModuleType.Pc)
+        {
+            AddLabelValueLine(lines, "CPU", module.PcCpuModel);
+            AddLabelValueLine(lines, "RAM", module.PcMemorySpec);
+            AddLabelValueLine(lines, "SSD", module.PcStorageSpec);
+            AddLabelValueLine(lines, "OS", GetPcOsText(module));
+            AddLabelValueLine(lines, "GPU", module.PcGpuModel);
+            AddLabelValueLine(lines, "Role", module.PcRoleName);
+            AddLabelValueLine(lines, "App", module.PcMainApplicationName);
+            return lines;
+        }
+
+        AddLabelValueLine(lines, "Info", module.PlatformSummary);
+        return lines;
+    }
+
+    private string GetPcOsText(ModuleItemViewModel module)
+    {
+        if (string.IsNullOrWhiteSpace(module.PcOsName))
+        {
+            return module.PcOsVersion;
+        }
+
+        if (string.IsNullOrWhiteSpace(module.PcOsVersion))
+        {
+            return module.PcOsName;
+        }
+
+        return module.PcOsName + " " + module.PcOsVersion;
+    }
+
+    private void AddLabelValueLine(List<string> lines, string label, string value)
+    {
+        if (!string.IsNullOrWhiteSpace(value))
+        {
+            lines.Add(label + ": " + value);
+        }
+    }
+}
+
+<section class="space-y-3">
+    <div>
+        <h1 class="text-2xl font-black tracking-tight">프로젝트 목록</h1>
+        <p class="text-sm text-base-content/60">프로젝트를 선택하면 사용된 EQP와 Module 구성을 확인할 수 있습니다.</p>
+    </div>
+
+    <div class="overflow-x-auto rounded-lg border border-base-300 bg-base-100 shadow-sm">
+        <table class="table table-zebra table-sm">
+            <thead>
+                <tr class="text-xs uppercase tracking-[0.18em] text-base-content/55">
+                    <th>코드</th>
+                    <th>프로젝트명</th>
+                    <th>고객사</th>
+                    <th>팀</th>
+                    <th>담당자</th>
+                    <th>상태</th>
+                    <th>시작일</th>
+                    <th>종료일</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.PageData.Projects.Count == 0)
+                {
+                    <tr>
+                        <td colspan="8" class="py-8 text-center text-sm text-base-content/60">
+                            등록된 프로젝트가 없습니다.
+                        </td>
+                    </tr>
+                }
+                else
+                {
+                    @foreach (ProjectListItemViewModel project in Model.PageData.Projects)
+                    {
+                        bool isSelectedProject = Model.HasSelectedProject
+                            && string.Equals(Model.SelectedProject.Code, project.Code, StringComparison.OrdinalIgnoreCase);
+
+                        <tr class="@GetProjectRowClass(project.Code)"
+                            onclick="window.location='@GetProjectRowUrl(project.Code)'">
+                            <td class="whitespace-nowrap font-bold text-primary">
+                                <span class="tree-toggle-icon @(isSelectedProject ? "is-open" : string.Empty)" aria-hidden="true"></span>
+                                @project.Code
+                            </td>
+                            <td class="min-w-72 font-semibold">@project.Name</td>
+                            <td>@project.CustomerName</td>
+                            <td>@project.TeamName</td>
+                            <td>@project.OwnerName</td>
+                            <td>
+                                <span class="@GetStatusBadgeClass(project.StatusName)">
+                                    @GetStatusDisplayName(project.StatusName)
+                                </span>
+                            </td>
+                            <td class="whitespace-nowrap">@project.StartDate.ToString("yyyy-MM-dd")</td>
+                            <td class="whitespace-nowrap">@(project.EndDate.HasValue ? project.EndDate.Value.ToString("yyyy-MM-dd") : "-")</td>
+                        </tr>
+
+                        @if (isSelectedProject)
+                        {
+                            <tr class="bg-base-100">
+                                <td colspan="8" class="p-0">
+                                    <div class="border-t border-base-300 bg-base-100 px-4 py-4 lg:px-6">
+                                        <div class="mb-4 flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
+                                            <div>
+                                                <h2 class="text-lg font-bold">@Model.SelectedProject.Name</h2>
+                                                <p class="mt-1 text-sm text-base-content/60">@Model.SelectedProject.Summary</p>
+                                            </div>
+
+                                            @if (Model.HasSelectedProjectEditPermission)
+                                            {
+                                                <a class="btn btn-primary btn-sm" asp-page="/Projects/Edit" asp-route-code="@Model.SelectedProject.Code">수정</a>
+                                            }
+                                        </div>
+
+                                        @if (Model.SelectedProject.Equipments.Count == 0)
+                                        {
+                                            <div class="rounded-lg border border-dashed border-base-300 px-4 py-8 text-center text-sm text-base-content/60">
+                                                등록된 EQP가 없습니다.
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="space-y-3">
+                                                @foreach (EquipmentSectionViewModel equipment in Model.SelectedProject.Equipments)
+                                                {
+                                                    List<ModuleGroupItem> moduleGroups = GetModuleGroups(equipment);
+
+                                                    <section class="overflow-hidden rounded-lg border border-base-300 bg-base-100">
+                                                        <div class="bg-base-200/40 px-4 py-4">
+                                                            <div class="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+                                                                <div class="flex min-w-0 flex-wrap items-center gap-x-4 gap-y-2">
+                                                                    <span class="rounded-md border border-primary/25 bg-primary/10 px-2.5 py-1 text-xs font-bold text-primary">
+                                                                        @equipment.Code
+                                                                    </span>
+                                                                    <h3 class="min-w-0 text-base font-bold text-base-content">
+                                                                        @equipment.Name
+                                                                    </h3>
+                                                                </div>
+
+                                                                <div class="flex flex-wrap gap-2 text-sm">
+                                                                    <div class="flex items-center gap-2 rounded-md border border-base-300 bg-base-100/80 px-3 py-1.5">
+                                                                        <span class="font-semibold text-base-content/55">플랫폼</span>
+                                                                        <span class="font-semibold text-base-content">@(string.IsNullOrWhiteSpace(equipment.PlatformName) ? "-" : equipment.PlatformName)</span>
+                                                                    </div>
+                                                                    <div class="flex items-center gap-2 rounded-md border border-base-300 bg-base-100/80 px-3 py-1.5">
+                                                                        <span class="font-semibold text-base-content/55">단계</span>
+                                                                        <span class="font-semibold text-base-content">@GetEquipmentStageDisplayName(equipment.StageName)</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        @if (equipment.Modules.Count == 0)
+                                                        {
+                                                            <div class="border-t border-base-300 px-4 py-6 text-center text-sm text-base-content/60">
+                                                                등록된 Module이 없습니다.
+                                                            </div>
+                                                        }
+                                                        else
+                                                        {
+                                                            <div class="space-y-4 border-t border-base-300 px-4 py-4">
+                                                                @foreach (ModuleGroupItem moduleGroup in moduleGroups)
+                                                                {
+                                                                    <div class="space-y-2">
+                                                                        <div class="border-b border-base-300 pb-2 text-sm font-bold text-base-content">
+                                                                            @moduleGroup.TypeName
+                                                                        </div>
+
+                                                                        <div class="overflow-x-auto">
+                                                                            <table class="table table-sm table-fixed">
+                                                                                <colgroup>
+                                                                                    <col style="width: 14%" />
+                                                                                    <col style="width: 12%" />
+                                                                                    <col style="width: 14%" />
+                                                                                    <col style="width: 18%" />
+                                                                                    <col style="width: 18%" />
+                                                                                    <col style="width: 14%" />
+                                                                                    <col style="width: 10%" />
+                                                                                </colgroup>
+                                                                                <thead>
+                                                                                    <tr class="text-xs uppercase tracking-[0.16em] text-base-content/45">
+                                                                                        <th>이름</th>
+                                                                                        <th>제조사</th>
+                                                                                        <th>모델</th>
+                                                                                        <th>세부 정보</th>
+                                                                                        <th>드라이버</th>
+                                                                                        <th>시리얼 번호</th>
+                                                                                        <th>비고</th>
+                                                                                    </tr>
+                                                                                </thead>
+                                                                                <tbody>
+                                                                                    @foreach (ModuleItemViewModel module in moduleGroup.Modules)
+                                                                                    {
+                                                                                        <tr>
+                                                                                            <td class="font-semibold">@module.Name</td>
+                                                                                            <td class="text-base-content/70">@module.ManufacturerName</td>
+                                                                                            <td class="text-base-content/70">@module.ModelName</td>
+                                                                                            <td class="text-base-content/70">
+                                                                                                @{
+                                                                                                    List<string> moduleDetailLines = GetModuleDetailLines(module);
+                                                                                                }
+                                                                                                @if (moduleDetailLines.Count == 0)
+                                                                                                {
+                                                                                                    <span>-</span>
+                                                                                                }
+                                                                                                else
+                                                                                                {
+                                                                                                    @foreach (string detailLine in moduleDetailLines)
+                                                                                                    {
+                                                                                                        <div>@detailLine</div>
+                                                                                                    }
+                                                                                                }
+                                                                                            </td>
+                                                                                            <td class="text-base-content/70">
+                                                                                                @if (module.Drivers.Count == 0)
+                                                                                                {
+                                                                                                    <span>-</span>
+                                                                                                }
+                                                                                                else
+                                                                                                {
+                                                                                                    @foreach (ModuleDriverViewModel driver in module.Drivers)
+                                                                                                    {
+                                                                                                        <div>
+                                                                                                            @driver.Name
+                                                                                                            @if (!string.IsNullOrWhiteSpace(driver.Version))
+                                                                                                            {
+                                                                                                                <span>@driver.Version</span>
+                                                                                                            }
+                                                                                                        </div>
+                                                                                                    }
+                                                                                                }
+                                                                                            </td>
+                                                                                            <td class="text-base-content/70">
+                                                                                                @if (module.SerialNumbers.Count == 0)
+                                                                                                {
+                                                                                                    <span>-</span>
+                                                                                                }
+                                                                                                else
+                                                                                                {
+                                                                                                    @foreach (string serialNumber in module.SerialNumbers)
+                                                                                                    {
+                                                                                                        <div class="whitespace-nowrap">@serialNumber</div>
+                                                                                                    }
+                                                                                                }
+                                                                                            </td>
+                                                                                            <td class="text-base-content/70">@(string.IsNullOrWhiteSpace(module.Notes) ? "-" : module.Notes)</td>
+                                                                                        </tr>
+                                                                                    }
+                                                                                </tbody>
+                                                                            </table>
+                                                                        </div>
+                                                                    </div>
+                                                                }
+                                                            </div>
+                                                        }
+                                                    </section>
+                                                }
+                                            </div>
+                                        }
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</section>

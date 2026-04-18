@@ -1,0 +1,48 @@
+@page
+@model Vanta.Pages.Account.SetupModel
+@{
+    ViewData["Title"] = "Initial Setup";
+}
+
+<div class="mx-auto flex min-h-[70vh] max-w-md items-center justify-center">
+    <section class="w-full rounded-lg border border-base-300 bg-base-100 p-6 shadow-sm">
+        <div class="space-y-1">
+            <h1 class="text-2xl font-bold">Initial Setup</h1>
+            <p class="text-sm text-base-content/60">Create the first administrator account.</p>
+        </div>
+
+        <form method="post" class="mt-6 space-y-4">
+            <div class="form-control">
+                <label class="label" asp-for="LoginId"></label>
+                <input asp-for="LoginId" class="input input-bordered w-full" autocomplete="username" />
+                <span asp-validation-for="LoginId" class="text-sm text-error"></span>
+            </div>
+
+            <div class="form-control">
+                <label class="label" asp-for="DisplayName"></label>
+                <input asp-for="DisplayName" class="input input-bordered w-full" autocomplete="name" />
+                <span asp-validation-for="DisplayName" class="text-sm text-error"></span>
+            </div>
+
+            <div class="form-control">
+                <label class="label" asp-for="Password"></label>
+                <input asp-for="Password" class="input input-bordered w-full" autocomplete="new-password" />
+                <span asp-validation-for="Password" class="text-sm text-error"></span>
+            </div>
+
+            <div class="form-control">
+                <label class="label" asp-for="PasswordConfirmation"></label>
+                <input asp-for="PasswordConfirmation" class="input input-bordered w-full" autocomplete="new-password" />
+                <span asp-validation-for="PasswordConfirmation" class="text-sm text-error"></span>
+            </div>
+
+            <div asp-validation-summary="ModelOnly" class="text-sm text-error"></div>
+
+            <button type="submit" class="btn btn-primary w-full">Create Admin</button>
+        </form>
+    </section>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

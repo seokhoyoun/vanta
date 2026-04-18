@@ -1,0 +1,29 @@
+@page
+@model ErrorModel
+@{
+    ViewData["Title"] = "Error";
+}
+
+<section class="space-y-5">
+    <div class="rounded-box border border-error/30 bg-error/10 p-6 shadow-sm">
+        <div class="badge badge-outline badge-error">Error</div>
+        <h1 class="mt-3 text-3xl font-black tracking-tight text-error">요청 처리 중 오류가 발생했습니다.</h1>
+        <p class="mt-3 text-sm leading-7 text-base-content/75">
+            요청을 정상적으로 완료하지 못했습니다. 필요하면 요청 ID를 기준으로 로그를 추적하세요.
+        </p>
+
+        @if (Model.ShowRequestId)
+        {
+            <div class="mt-4 rounded-box border border-base-300 bg-base-100 px-4 py-3 text-sm">
+                <strong>Request ID:</strong> <code>@Model.RequestId</code>
+            </div>
+        }
+    </div>
+
+    <div class="rounded-box border border-base-300 bg-base-100 p-6 shadow-sm">
+        <h2 class="text-lg font-bold">Development Mode</h2>
+        <p class="mt-2 text-sm leading-7 text-base-content/70">
+            개발 환경에서는 자세한 오류 정보가 표시될 수 있습니다. 운영 환경에서는 민감한 정보 노출을 막기 위해 상세 예외를 노출하지 않는 것이 맞습니다.
+        </p>
+    </div>
+</section>

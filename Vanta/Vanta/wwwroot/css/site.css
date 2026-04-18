@@ -1,0 +1,109 @@
+:root {
+  --vanta-ink: #111111;
+  --vanta-muted: #525252;
+  --vanta-line: rgba(115, 115, 115, 0.35);
+  --vanta-surface: #ffffff;
+  --vanta-hover: #f5f5f5;
+  --vanta-selected: #ebebeb;
+  --vanta-danger: #111111;
+  --vanta-shadow: rgba(17, 17, 17, 0.14);
+}
+
+html {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  color: var(--vanta-ink);
+  background:
+    linear-gradient(180deg, #ffffff 0%, #f5f5f5 100%);
+  font-family: "Segoe UI", "Malgun Gothic", sans-serif;
+}
+
+a {
+  color: inherit;
+}
+
+main {
+  position: relative;
+}
+
+.tree-toggle-icon {
+  display: inline-block;
+  width: 0.45rem;
+  height: 0.45rem;
+  margin-right: 0.3rem;
+  border-right: 1.25px solid var(--vanta-muted);
+  border-bottom: 1.25px solid var(--vanta-muted);
+  transform: rotate(-45deg) translateY(-1px);
+  transform-origin: center;
+  transition: transform 140ms ease, border-color 140ms ease;
+}
+
+.tree-toggle-icon.is-open {
+  transform: rotate(45deg) translateY(-1px);
+}
+
+details > summary::-webkit-details-marker {
+  display: none;
+}
+
+details > summary::marker {
+  content: "";
+}
+
+details > summary {
+  user-select: none;
+}
+
+details[open] > summary .tree-toggle-icon {
+  transform: rotate(45deg) translateY(-1px);
+}
+
+
+.project-row-selected {
+  background: var(--vanta-selected) !important;
+}
+
+.project-row {
+  transition:
+    background-color 160ms ease,
+    transform 160ms ease;
+}
+
+.context-menu {
+  position: absolute;
+  z-index: 2000;
+  display: none;
+  min-width: 9rem;
+  padding: 0.35rem;
+  background: var(--vanta-surface);
+  border: 1px solid var(--vanta-line);
+  box-shadow: 0 16px 40px var(--vanta-shadow);
+  backdrop-filter: blur(18px);
+}
+
+.context-menu-item {
+  display: block;
+  width: 100%;
+  border: 0;
+  border-radius: 0.9rem;
+  background: transparent;
+  color: var(--vanta-ink);
+  text-align: left;
+  font-size: 0.875rem;
+  font-weight: 600;
+  padding: 0.7rem 0.85rem;
+  transition:
+    background-color 140ms ease,
+    color 140ms ease;
+}
+
+.context-menu-item:hover {
+  background: var(--vanta-hover);
+}
+
+.context-menu-item.danger-item {
+  color: var(--vanta-danger);
+}

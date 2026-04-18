@@ -50,6 +50,9 @@ CodeCoverage/
 [Tt]est[Rr]esult*/
 [Bb]uild[Ll]og.*
 
+# Node
+node_modules/
+
 # NUnit
 *.VisualState.xml
 TestResult.xml

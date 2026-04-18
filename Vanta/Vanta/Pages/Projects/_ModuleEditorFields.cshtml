@@ -1,0 +1,136 @@
+@using Vanta.Models
+@using Vanta.ViewModels
+@model Vanta.Pages.Projects.ModuleEditorFieldsViewModel
+
+<div class="grid gap-3 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,0.8fr)_minmax(0,1fr)_minmax(0,1fr)]">
+    <label class="form-control">
+        <span class="label-text font-semibold">모듈 코드</span>
+        <input name="ModuleCode" value="@Model.ModuleCode" class="input input-bordered input-sm w-full" />
+    </label>
+
+    <label class="form-control">
+        <span class="label-text font-semibold">유형</span>
+        <select name="ModuleType" class="select select-bordered select-sm w-full">
+            <option value="@EProjectEquipmentModuleType.Pc" selected="@(Model.ModuleType == EProjectEquipmentModuleType.Pc)">PC</option>
+            <option value="@EProjectEquipmentModuleType.LoadPort" selected="@(Model.ModuleType == EProjectEquipmentModuleType.LoadPort)">LoadPort</option>
+            <option value="@EProjectEquipmentModuleType.Fims" selected="@(Model.ModuleType == EProjectEquipmentModuleType.Fims)">FIMS</option>
+            <option value="@EProjectEquipmentModuleType.Wtr" selected="@(Model.ModuleType == EProjectEquipmentModuleType.Wtr)">WTR</option>
+            <option value="@EProjectEquipmentModuleType.Ftr" selected="@(Model.ModuleType == EProjectEquipmentModuleType.Ftr)">FTR</option>
+            <option value="@EProjectEquipmentModuleType.Motor" selected="@(Model.ModuleType == EProjectEquipmentModuleType.Motor)">Motor</option>
+            <option value="@EProjectEquipmentModuleType.Io" selected="@(Model.ModuleType == EProjectEquipmentModuleType.Io)">I/O</option>
+            <option value="@EProjectEquipmentModuleType.Plc" selected="@(Model.ModuleType == EProjectEquipmentModuleType.Plc)">PLC</option>
+            <option value="@EProjectEquipmentModuleType.Rfid" selected="@(Model.ModuleType == EProjectEquipmentModuleType.Rfid)">RFID</option>
+            <option value="@EProjectEquipmentModuleType.SoftwarePlatform" selected="@(Model.ModuleType == EProjectEquipmentModuleType.SoftwarePlatform)">S/W Platform</option>
+            <option value="@EProjectEquipmentModuleType.Other" selected="@(Model.ModuleType == EProjectEquipmentModuleType.Other)">Other</option>
+        </select>
+    </label>
+
+    <label class="form-control">
+        <span class="label-text font-semibold">이름</span>
+        <input name="ModuleName" value="@Model.ModuleName" class="input input-bordered input-sm w-full" />
+    </label>
+
+    <label class="form-control">
+        <span class="label-text font-semibold">제조사</span>
+        <input name="ModuleManufacturerName" value="@Model.ModuleManufacturerName" class="input input-bordered input-sm w-full" />
+    </label>
+
+    <label class="form-control">
+        <span class="label-text font-semibold">모델</span>
+        <input name="ModuleModelName" value="@Model.ModuleModelName" class="input input-bordered input-sm w-full" />
+    </label>
+
+    <label class="form-control lg:col-span-3">
+        <span class="label-text font-semibold">플랫폼 / 통신</span>
+        <input name="ModulePlatformSummary" value="@Model.ModulePlatformSummary" class="input input-bordered input-sm w-full" />
+    </label>
+</div>
+
+<div class="mt-3 space-y-2 rounded-lg border border-base-300 bg-base-100 p-3">
+    <div class="text-sm font-bold text-base-content">드라이버 목록</div>
+    @{
+        List<ModuleDriverViewModel> driverRows = Model.GetDriverRows();
+    }
+    @for (int i = 0; i < driverRows.Count; i++)
+    {
+        <div class="grid gap-2 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.7fr)_minmax(0,1.2fr)]">
+            <label class="form-control">
+                <span class="label-text text-xs font-semibold">이름</span>
+                <input name="ModuleDrivers[@i].Name" value="@driverRows[i].Name" class="input input-bordered input-sm w-full" />
+            </label>
+
+            <label class="form-control">
+                <span class="label-text text-xs font-semibold">버전</span>
+                <input name="ModuleDrivers[@i].Version" value="@driverRows[i].Version" class="input input-bordered input-sm w-full" />
+            </label>
+
+            <label class="form-control">
+                <span class="label-text text-xs font-semibold">비고</span>
+                <input name="ModuleDrivers[@i].Notes" value="@driverRows[i].Notes" class="input input-bordered input-sm w-full" />
+            </label>
+        </div>
+    }
+</div>
+
+<div class="mt-3 grid gap-3 lg:grid-cols-2">
+    <label class="form-control">
+        <span class="label-text font-semibold">시리얼 번호</span>
+        <textarea name="ModuleSerialNumbersText" class="textarea textarea-bordered min-h-24 w-full">@Model.ModuleSerialNumbersText</textarea>
+    </label>
+
+    <label class="form-control">
+        <span class="label-text font-semibold">비고</span>
+        <textarea name="ModuleNotes" class="textarea textarea-bordered min-h-24 w-full">@Model.ModuleNotes</textarea>
+    </label>
+</div>
+
+<details class="mt-3 rounded-lg border border-base-300 bg-base-100" open="@(Model.ModuleType == EProjectEquipmentModuleType.Pc)">
+    <summary class="cursor-pointer list-none px-3 py-2 text-sm font-bold text-base-content">PC 상세 정보</summary>
+
+    <div class="grid gap-3 border-t border-base-300 px-3 py-3 lg:grid-cols-3">
+        <label class="form-control">
+            <span class="label-text font-semibold">역할</span>
+            <input name="ModulePcRoleName" value="@Model.ModulePcRoleName" class="input input-bordered input-sm w-full" />
+        </label>
+
+        <label class="form-control">
+            <span class="label-text font-semibold">CPU</span>
+            <input name="ModulePcCpuModel" value="@Model.ModulePcCpuModel" class="input input-bordered input-sm w-full" />
+        </label>
+
+        <label class="form-control">
+            <span class="label-text font-semibold">RAM</span>
+            <input name="ModulePcMemorySpec" value="@Model.ModulePcMemorySpec" class="input input-bordered input-sm w-full" />
+        </label>
+
+        <label class="form-control">
+            <span class="label-text font-semibold">SSD / Storage</span>
+            <input name="ModulePcStorageSpec" value="@Model.ModulePcStorageSpec" class="input input-bordered input-sm w-full" />
+        </label>
+
+        <label class="form-control">
+            <span class="label-text font-semibold">GPU</span>
+            <input name="ModulePcGpuModel" value="@Model.ModulePcGpuModel" class="input input-bordered input-sm w-full" />
+        </label>
+
+        <label class="form-control">
+            <span class="label-text font-semibold">OS</span>
+            <input name="ModulePcOsName" value="@Model.ModulePcOsName" class="input input-bordered input-sm w-full" />
+        </label>
+
+        <label class="form-control">
+            <span class="label-text font-semibold">OS Version</span>
+            <input name="ModulePcOsVersion" value="@Model.ModulePcOsVersion" class="input input-bordered input-sm w-full" />
+        </label>
+
+        <label class="form-control">
+            <span class="label-text font-semibold">주요 애플리케이션</span>
+            <input name="ModulePcMainApplicationName" value="@Model.ModulePcMainApplicationName" class="input input-bordered input-sm w-full" />
+        </label>
+
+        <label class="form-control">
+            <span class="label-text font-semibold">네트워크 메모</span>
+            <input name="ModulePcNetworkNotes" value="@Model.ModulePcNetworkNotes" class="input input-bordered input-sm w-full" />
+        </label>
+    </div>
+</details>
